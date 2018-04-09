@@ -4,9 +4,9 @@ Spring + Groovy + Mybatis(Velocity Expression) Integration Example
 Intellij Community 버전에서 Spring MVC를 쉽게 개발하기 위한 환경입니다.
 프로젝트 구성요소는 아래와 같습니다.
 
-* Gradle (Maven) 프로젝트로 구성되었습니다.
-  * Test 환경에서 Spring Boot가 구동 됨. Embedded Tomcat사용.
-  * Main 환경에서는 운영서버에 반영될 소스만 생성됨. Tomcat을 이용한 서버구동 가능함.
+* Gradle (Maven) 프로젝트로 구성되었습니다
+  * Test 환경에서 Spring Boot가 구동 됨. Embedded Tomcat사용. 
+  * Main 환경에서는 운영서버에 반영될 소스만 생성됨. Tomcat을 이용한 서버구동 가능함. 
 * Spring Boot (Embedded Tomcat & On-Tomcat availible) 
   * Spring Boot Dev Tool을 사용하여 변경 클래스를 Tomcat재구동 없이 반영
   * Tomcat과 같은 Application Server를 이용한 프로젝트 구성도 가능
