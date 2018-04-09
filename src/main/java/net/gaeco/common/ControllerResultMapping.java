@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by gs on 2018-01-30.
  */
-public class ContrlResultMapping {
+public class ControllerResultMapping {
 
     //session , obj 값 map으로
     public static Map setResultReturn(Object obj) {

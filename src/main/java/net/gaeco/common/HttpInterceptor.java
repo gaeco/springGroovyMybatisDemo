@@ -28,24 +28,23 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 
 
     @Override  //컨트롤러(즉 RequestMapping이 선언된 메서드 진입) 실행 직전에 동작
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler
-    ) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean result = true;
         System.out.println("Pre Handle 탄다~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         if(request.getSession().getAttribute(Constants.SESSION_INFO) == null){
             //request parameter로 empno를 받을 경우 session에 가져온 값을 넣고
-            if(request.getParameter("empno") != null){
-                String empno = request.getParameter("empno");
+            if(request.getParameter("user_id") != null){
+                String useId = request.getParameter("user_id");
 
                 Map<String, Object> obj = new HashMap<String,Object>();
-                obj.put("empno",empno);
+                obj.put("user_id", useId);
 //                Map userInfo = (Map)loginService.selectUser(obj); //사용자 정보
                 Map userInfo = null;
                 if(userInfo != null) {
                     request.getSession().setAttribute(Constants.SESSION_INFO, userInfo);
-                    //일치하지 않으면 로그인페이지 재이동
                 }else {
-                    throw new CustomException("Session 이 없습니다.",Constants.ERROR_CODE_SESSION);
+                    //로그인 되어있지 않으면 오류 처리 한다.
+                    //throw new CustomException("Session 이 없습니다.",Constants.ERROR_CODE_SESSION);
                 }
 
             }else{
@@ -58,19 +57,18 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
         Map userInfo = (HashMap)request.getSession().getAttribute(Constants.SESSION_INFO);
         accessObj.put("request_url",request.getRequestURL().toString());
         accessObj.put("ip",request.getRemoteAddr());
-        accessObj.put("empno", userInfo.get("empno"));
+        accessObj.put("user_id", userInfo.get("user_id"));
 
 //        String requestId = requestService.insertAccessLog(accessObj).toString();
         String requestId =null;
         requestInfo.setLogId(requestId);
-        requestInfo.setEmpno(userInfo.get("empno").toString());
+        requestInfo.setUserId(userInfo.get("user_id").toString());
 
         return result;
      }
 
     @Override   // 컨트롤러 진입 후 view가 랜더링 되기 전 수행이 됩니다. 컨트롤러에서 예외가 발생되면 실행되지 않는다.
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView
-    ) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
         //requestService.updateAccessLog(reqInfo.getLogId());
 

@@ -19,9 +19,9 @@ public class AspectHandler {
         public Object beforeSessionTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable{
         Object[] argument = thisJoinPoint.getArgs();
 
-        if(reqInfo.getEmpno() != null && argument!= null ){
+        if(reqInfo.getUserId() != null && argument!= null ){
             for (int i = 0; i < argument.length; i++) {
-                ((HashMap)argument[i]).put("_user_id",reqInfo.getEmpno());
+                ((HashMap)argument[i]).put("_user_id",reqInfo.getUserId());
             }
         }
 
@@ -33,7 +33,7 @@ public class AspectHandler {
     public Object afterReturnValueTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable{
             Object obj = thisJoinPoint.proceed(); //핵심 기능 실행
             if(obj != null) {
-                return ContrlResultMapping.setResultReturn(obj);
+                return ControllerResultMapping.setResultReturn(obj);
             }
             else{
                 return obj;

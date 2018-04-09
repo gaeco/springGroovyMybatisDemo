@@ -5,20 +5,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
-
 @Component
 @Scope(value="request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RequestInfo {
     private String logId;
-    private String empno;
+    private String userId;
 
-    public String getEmpno() {
-        return empno;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmpno(String empno) {
-        this.empno = empno;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getLogId() {
