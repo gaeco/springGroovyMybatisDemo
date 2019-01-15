@@ -10,18 +10,16 @@ import org.springframework.beans.factory.annotation.Qualifier
 
 //@Repository
 @Mapper
-@Qualifier("erpSqlSessionTemplate")
+@Qualifier("oneSqlSessionTemplate")
 interface StudentDAO {
 
     @Select('''
         SELECT 
             id, 
-            name, 
-            idNo, 
-            age, 
-            modUser, 
-            modDate,
-            strVar
+            studentName, 
+            email, 
+            regDate, 
+            modDate
         FROM Student
         ''')
     def List<LinkedHashMap> getStudentsAll()

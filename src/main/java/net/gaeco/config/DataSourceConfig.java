@@ -27,17 +27,17 @@ import javax.sql.DataSource;
 @PropertySource("classpath:application.properties")
 public class DataSourceConfig {
     @Bean(name = "oneDataSource")
-    public DataSource erpDataSource(@Value("${gaeco.datasource.sqlTrace}") String sqlTrace,
-                                      @Value("${gaeco.datasource.type}") String type,
-                                      @Value("${gaeco.datasource.driverClassName}") String driverClassName,
-                                      @Value("${gaeco.datasource.url}") String url,
-                                      @Value("${gaeco.datasource.username}") String username,
-                                      @Value("${gaeco.datasource.password}") String password,
-                                      @Value("${gaeco.datasource.maxActive}") Integer maxActive,
-                                      @Value("${gaeco.datasource.maxIdle}") Integer maxIdle,
-                                      @Value("${gaeco.datasource.maxWait}") Integer maxWait,
-                                      @Value("${gaeco.datasource.jndiName}") String jndiName,
-                                      @Value("${gaeco.datasource.connectionProperties}") String connectionProperties ) throws Exception{
+    public DataSource oneDataSource0(@Value("${gaeco.datasource.sqlTrace}") String sqlTrace,
+                                     @Value("${gaeco.datasource.type}") String type,
+                                     @Value("${gaeco.datasource.driverClassName}") String driverClassName,
+                                     @Value("${gaeco.datasource.url}") String url,
+                                     @Value("${gaeco.datasource.username}") String username,
+                                     @Value("${gaeco.datasource.password}") String password,
+                                     @Value("${gaeco.datasource.maxActive}") Integer maxActive,
+                                     @Value("${gaeco.datasource.maxIdle}") Integer maxIdle,
+                                     @Value("${gaeco.datasource.maxWait}") Integer maxWait,
+                                     @Value("${gaeco.datasource.jndiName}") String jndiName,
+                                     @Value("${gaeco.datasource.connectionProperties}") String connectionProperties ) throws Exception{
 
         DataSource dataSource = null;
 
@@ -73,7 +73,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public SqlSessionFactory erpSqlSessionFactory(@Qualifier("oneDataSource")DataSource erpDataSource, ApplicationContext applicationContext) throws Exception {
+    public SqlSessionFactory oneSqlSessionFactory(@Qualifier("oneDataSource")DataSource erpDataSource, ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(erpDataSource);
 //        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/first/*.xml"));
@@ -81,8 +81,8 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public SqlSessionTemplate erpSqlSessionTemplate(SqlSessionFactory erpSqlSessionFactory) throws Exception {
-        return new SqlSessionTemplate(erpSqlSessionFactory);
+    public SqlSessionTemplate oneSqlSessionTemplate(SqlSessionFactory oneSqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(oneSqlSessionFactory);
     }
 
 }
