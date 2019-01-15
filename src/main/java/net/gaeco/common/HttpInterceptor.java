@@ -30,7 +30,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
     @Override  //컨트롤러(즉 RequestMapping이 선언된 메서드 진입) 실행 직전에 동작
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean result = true;
-        System.out.println("Pre Handle 탄다~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        Map userInfo = null;
         if(request.getSession().getAttribute(Constants.SESSION_INFO) == null){
             //request parameter로 empno를 받을 경우 session에 가져온 값을 넣고
             if(request.getParameter("user_id") != null){
@@ -39,30 +39,33 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
                 Map<String, Object> obj = new HashMap<String,Object>();
                 obj.put("user_id", useId);
 //                Map userInfo = (Map)loginService.selectUser(obj); //사용자 정보
-                Map userInfo = null;
+
                 if(userInfo != null) {
                     request.getSession().setAttribute(Constants.SESSION_INFO, userInfo);
                 }else {
                     //로그인 되어있지 않으면 오류 처리 한다.
                     //throw new CustomException("Session 이 없습니다.",Constants.ERROR_CODE_SESSION);
                 }
-
             }else{
-                throw new CustomException("Session 이 없습니다.",Constants.ERROR_CODE_SESSION);
+                //임시로 주석처리한다.
+//                throw new CustomException("Session 이 없습니다.",Constants.ERROR_CODE_SESSION);
             }
         }
 
-
         Map accessObj = new HashMap();
-        Map userInfo = (HashMap)request.getSession().getAttribute(Constants.SESSION_INFO);
+        userInfo = (HashMap)request.getSession().getAttribute(Constants.SESSION_INFO);
+        if(userInfo == null){
+            userInfo = new HashMap();
+        }
+        String userId = (String)userInfo.get("user_id");
         accessObj.put("request_url",request.getRequestURL().toString());
         accessObj.put("ip",request.getRemoteAddr());
-        accessObj.put("user_id", userInfo.get("user_id"));
+        accessObj.put("user_id", userId);
 
 //        String requestId = requestService.insertAccessLog(accessObj).toString();
         String requestId =null;
         requestInfo.setLogId(requestId);
-        requestInfo.setUserId(userInfo.get("user_id").toString());
+        requestInfo.setUserId(userId);
 
         return result;
      }
