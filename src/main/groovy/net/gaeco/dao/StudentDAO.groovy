@@ -20,6 +20,9 @@ CREATE TABLE Student  (
 	PRIMARY KEY(id) USING BTREE
 )
 */
+/*
+MyBatis Velocity 참조 : http://www.mybatis.org/velocity-scripting/index.html
+*/
 
 //@Repository
 @Mapper
@@ -79,13 +82,17 @@ interface StudentDAO {
             modDate
         FROM Student
         WHERE 1=1
-          #if($_parameter.id)
-          AND id = @{id} 
+          #if($_parameter.ids)
+            AND
+              #in( $_parameter.ids $id "id" )
+                @{id}
+              #end 
           #else
           AND id >= 1 
           #end
+          
         ''')
-    def List<LinkedHashMap> getStudents1(Map x)
+    def List<LinkedHashMap> getStudentsInIds(Map x)
 
     @Insert('''
         INSERT INTO Student(studentName, email, modUser, modDate) 

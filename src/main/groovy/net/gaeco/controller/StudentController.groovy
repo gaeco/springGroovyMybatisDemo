@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -26,8 +27,16 @@ class StudentController {
 
     @GetMapping("/student/{id}")
     def getStudent(@PathVariable(value="id") Integer id){
-        //[student:studentService.getStudentById(id),status:"OK"]
         studentService.getStudents([id:id])
+    }
+
+    @GetMapping("/students")
+    def getStudents(@RequestParam(value = 'ids',required = false) String ids){
+        def idArr = []
+        if(ids){
+            idArr = ids.split(",")
+        }
+        studentService.getStudentsInIds([ids:idArr])
     }
 
     @PostMapping("/students")

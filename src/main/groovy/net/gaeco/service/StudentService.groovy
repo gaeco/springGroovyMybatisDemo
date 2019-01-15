@@ -22,6 +22,10 @@ class StudentService {
         studentDAO.getStudents(obj)
     }
 
+    def List getStudentsInIds(Map obj){
+        studentDAO.getStudentsInIds(obj)
+    }
+
     @Transactional(rollbackFor = Exception.class)
     def void insertStudents(List<Map> list){
         def cnt = 0
