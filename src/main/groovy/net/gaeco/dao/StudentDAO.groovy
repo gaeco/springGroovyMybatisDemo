@@ -8,6 +8,19 @@ import org.apache.ibatis.annotations.Select
 import org.mybatis.scripting.velocity.Driver
 import org.springframework.beans.factory.annotation.Qualifier
 
+/*
+// MySQL 테이블 생성
+CREATE TABLE Student  (
+	id          	int(11) AUTO_INCREMENT NOT NULL,
+	studentName 	varchar(100) NULL DEFAULT 'NULL',
+	email       	varchar(100) NULL DEFAULT 'NULL',
+	age            	int(11) NOT NULL DEFAULT 0,
+	regDate     	datetime NULL DEFAULT now(),
+	modDate     	datetime NULL DEFAULT now(),
+	PRIMARY KEY(id) USING BTREE
+)
+*/
+
 //@Repository
 @Mapper
 @Qualifier("oneSqlSessionTemplate")
@@ -26,7 +39,12 @@ interface StudentDAO {
 
     @Lang(org.mybatis.scripting.velocity.Driver.class)
     @Select('''
-        SELECT id, name, idNo, age, modUser, modDate
+        SELECT 
+            id, 
+            studentName, 
+            email, 
+            regDate, 
+            modDate
         FROM Student
         WHERE id = @{id}
         ''')
@@ -37,10 +55,9 @@ interface StudentDAO {
     @Select('''
         SELECT 
             id, 
-            name as NAME123, 
-            idNo, 
-            age, 
-            modUser, 
+            studentName, 
+            email, 
+            regDate, 
             modDate
         FROM Student
         WHERE 1=1
@@ -56,10 +73,9 @@ interface StudentDAO {
     @Select('''
         SELECT 
             id, 
-            name as NAME123, 
-            idNo, 
-            age, 
-            modUser, 
+            studentName, 
+            email, 
+            regDate, 
             modDate
         FROM Student
         WHERE 1=1
@@ -72,8 +88,8 @@ interface StudentDAO {
     def List<LinkedHashMap> getStudents1(Map x)
 
     @Insert('''
-        INSERT INTO Student(name, idNo, age, modUser, modDate, strVar) 
-        VALUES(#{name}, #{idNo}, #{age}, 'TEST', DATE_FORMAT(now(), "%Y%m%d%H%i%s"), #{strVar})
+        INSERT INTO Student(studentName, email, modUser, modDate) 
+        VALUES(#{studentName}, #{email}, 'TEST', DATE_FORMAT(now(), "%Y%m%d%H%i%s"))
         ''')
     def void insertStudent(x)
 
